@@ -18,4 +18,8 @@ public class BoardService {
 	public List<BoardVo> getAllBoard(){
 		return boardRepository.findAll();
 	}
+
+	public BoardVo createBoard(BoardVo board) {
+		return boardRepository.save(board);
+	}
 }
