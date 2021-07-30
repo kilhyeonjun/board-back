@@ -1,6 +1,7 @@
 package com.board.back.service;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -32,5 +33,17 @@ public class BoardService {
 		BoardVo board = boardRepository.findById(no)
 				.orElseThrow(() -> new ResourceNotFoundException("Not exist Board Data by no : ["+no+"]"));
 		return ResponseEntity.ok(board);
+	}
+	public ResponseEntity<BoardVo> updateBoard(Integer no, BoardVo updatedBoard) {
+		String nowTime = format.format (System.currentTimeMillis());
+		BoardVo board = boardRepository.findById(no)
+				.orElseThrow(() -> new ResourceNotFoundException("Not exist Board Data by no : ["+no+"]"));
+		board.setType(updatedBoard.getType());
+		board.setTitle(updatedBoard.getTitle());
+		board.setContents(updatedBoard.getContents());
+		board.setUpdatedTime(nowTime);	
+		
+		BoardVo	 endUpdatedBoard = boardRepository.save(board);
+		return ResponseEntity.ok(endUpdatedBoard);
 	}
 }
