@@ -1,8 +1,9 @@
 package com.board.back.service;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -45,5 +46,14 @@ public class BoardService {
 		
 		BoardVo	 endUpdatedBoard = boardRepository.save(board);
 		return ResponseEntity.ok(endUpdatedBoard);
+	}
+	public ResponseEntity<Map<String, Boolean>> deleteBoard(Integer no) {
+		BoardVo board = boardRepository.findById(no)
+				.orElseThrow(() -> new ResourceNotFoundException("Not exist Board Data by no : ["+no+"]"));
+		
+		boardRepository.delete(board);
+		Map<String, Boolean> response = new HashMap<>();
+		response.put("Deleted Board Data by id : ["+no+"]", Boolean.TRUE);
+		return ResponseEntity.ok(response);
 	}
 }
